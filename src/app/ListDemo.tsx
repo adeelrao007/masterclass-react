@@ -1,24 +1,21 @@
 import { useState } from "react";
 
-function ListItem({ index, value, onIncrement }: { index: number; value: number; onIncrement: () => void }) {
+function ListItem({ index }: { index: number }) {
+  const [value, setValue] = useState(0);
+
   return (
     <li>
-       {index+1} Item value: {value} <button onClick={onIncrement}>Increment</button>
+      {index + 1} Item value: {value}
+      <button onClick={() => setValue(v => v + 1)}>Increment</button>
     </li>
   );
 }
 
 export default function ListDemo() {
-  const [items, setItems] = useState(Array(10000).fill(0));
-
-  const handleIncrement = (idx: number) => {
-    setItems(items => items.map((v, i) => (i === idx ? v + 1 : v)));
-  };
-
   return (
     <ul>
-      {items.map((value, idx) => (
-        <ListItem key={idx} index={idx} value={value} onIncrement={() => handleIncrement(idx)} />
+      {Array.from({ length: 10000 }).map((_, idx) => (
+        <ListItem key={idx} index={idx} />
       ))}
     </ul>
   );
