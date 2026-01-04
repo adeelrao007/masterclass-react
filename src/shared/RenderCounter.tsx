@@ -6,5 +6,6 @@ export function RenderCounter({ label }: { label: string }) {
 
   console.log(label, "rendered", renders.current);
      
+  
   return null;
 }

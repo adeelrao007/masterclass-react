@@ -7,7 +7,6 @@ export default function Child({ count, inlineProp, memoizedProp }: any) {
 
   // Memoized and inline props for DeepChild
   const memoizedDeepProp = useCallback(() => "deep-memoized", []);
-  const stableDeepInlineProp = useMemo(() => ({ bar: "baz" }), []);
 
   return (
     <div style={{ marginLeft: 20 }}>
@@ -16,7 +15,7 @@ export default function Child({ count, inlineProp, memoizedProp }: any) {
       <RenderCounter label="Child" />
       <DeepChild 
         value={childState} 
-        inlineProp={stableDeepInlineProp} 
+        inlineProp={{ bar: "baz" }} 
         memoizedProp={memoizedDeepProp} 
       />
     </div>
