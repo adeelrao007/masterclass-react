@@ -3,6 +3,7 @@ import mysql from 'mysql2/promise';
 let pool;
 
 export function getDB() {
+    console.log(process.env);
   if (!pool) {
     pool = mysql.createPool({
       host: process.env.DB_HOST,
