@@ -1,19 +1,20 @@
-import { useState, useCallback } from "react";
+import { create } from "zustand";
 
-/**
- * Auth store hook for managing user authentication state.
- * No async, no API calls, pure state transitions.
- */
-export function useAuthStore<TUser = any>(initialUser: TUser = null) {
-  const [user, setUser] = useState<TUser | null>(initialUser);
+type User = {
+  id: string;
+  name: string;
+};
 
-  const login = useCallback((newUser: TUser) => {
-    setUser(newUser);
-  }, []);
+type AuthState = {
+  user: User | null;
+  login: (user: User) => void;
+  logout: () => void;
+};
 
-  const logout = useCallback(() => {
-    setUser(null);
-  }, []);
+export const useAuthStore = create<AuthState>((set) => ({
+  user: null,
 
-  return { user, login, logout };
-}
+  login: (user) => set({ user }),
+
+  logout: () => set({ user: null }),
+}));
