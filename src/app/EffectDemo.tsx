@@ -1,23 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useWindowWidth } from "../shared/useWindowWidth";
 
 
 export default function EffectDemo() {
   const [count, setCount] = useState(0);
-  const [width, setWidth] = useState(() => window.innerWidth);
-
-  useEffect(() => {
-    function handleResize() {
-      setWidth(window.innerWidth);
-    }
-    window.addEventListener('resize', handleResize);
-    // Set initial value in case resize happened before effect ran
-    handleResize();
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-
+  const width = useWindowWidth();
 
   return (
     <div>

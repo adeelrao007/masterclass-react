@@ -14,7 +14,7 @@ function ListItem({ index }: { index: number }) {
 export default function ListDemo() {
   return (
     <ul>
-      {Array.from({ length: 10000 }).map((_, idx) => (
+      {Array.from({ length: 10 }).map((_, idx) => (
         <ListItem key={idx} index={idx} />
       ))}
     </ul>
