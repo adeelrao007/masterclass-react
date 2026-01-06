@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { RenderCounter } from "../shared/RenderCounter";
 import DeepChild from "./DeepChild";
 
-export default function Child({ count, inlineProp, memoizedProp }: any) {
+export default function Child() {
   const [childState, setChildState] = useState(0);
 
   // Memoized and inline props for DeepChild
