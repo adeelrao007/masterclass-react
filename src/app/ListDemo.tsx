@@ -1,5 +1,6 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 function ListItem({ index }: { index: number }) {
   const [value, setValue] = useState(0);
@@ -10,38 +11,23 @@ function ListItem({ index }: { index: number }) {
     </li>
   );
 }
-
 export default function ListDemo() {
-  const [count, setCount] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["itemCount"],
+    queryFn: async () => {
+      const res = await fetch("/api/items/count");
+      if (!res.ok) throw new Error("Network response was not ok");
+      return res.json();
+    },
+  });
 
-  useEffect(() => {
-    setLoading(true);
-    setError(null);
-    // Simulate fetching the number of items from an API
-    fetch("/api/items/count")
-      .then(res => {
-        if (!res.ok) throw new Error("Network response was not ok");
-        return res.json();
-      })
-      .then(data => {
-        setCount(data.count);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (count === null) return null;
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {(error as Error).message}</div>;
+  if (!data || typeof data.count !== "number") return null;
 
   return (
     <ul>
-      {Array.from({ length: count }).map((_, idx) => (
+      {Array.from({ length: data.count }).map((_, idx) => (
         <ListItem key={idx} index={idx} />
       ))}
     </ul>
